@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -73,6 +74,12 @@ public class usuario extends HttpServlet {
             throws ServletException, IOException {
         HttpSession sesion = request.getSession(true);
         sesion.setAttribute("username", request.getParameter("username"));
+        
+        Cookie area = new Cookie("area", "");
+        Cookie perimetro = new Cookie("perimetro", "");
+        Cookie base1 = new Cookie("base" , "");
+        Cookie altura1 = new Cookie("altura" , "");
+        
         RequestDispatcher view = request.getRequestDispatcher("index.jsp");
         view.forward(request, response);
     }

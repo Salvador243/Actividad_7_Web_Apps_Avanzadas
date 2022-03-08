@@ -28,6 +28,28 @@
                     <br>
                     <button type="submit">Hacer Calculos</button>
                 </form>
+
+                <fieldset>
+                    <legend>Datos del triangulo</legend>
+                    <c:forEach var="item" items="${cookie}">
+                        <c:if test="${item.key != 'JSESSIONID'}">
+                            <c:choose>
+                                <c:when test="${item.key == 'area'}">
+                                    <c:out value="El area es: ${item.value.value}"/> <br> 
+                                </c:when>
+                                <c:when test="${item.key == 'perimetro'}">
+                                    <c:out value="El perimetro es: ${item.value.value}"/> <br>
+                                </c:when>
+                                <c:when test="${item.key == 'base'}">
+                                    <c:out value="La base es: ${item.value.value}"/> <br>
+                                </c:when>
+                                <c:when test="${item.key == 'altura'}">
+                                    <c:out value="La altura es: ${item.value.value}"/> <br>
+                                </c:when>
+                            </c:choose>             
+                        </c:if>
+                    </c:forEach>
+                </fieldset>
             </c:when>
             <c:when test="${sessionScope.username == null}">
                 <form action="usuario" method="post">
@@ -40,26 +62,5 @@
             </c:when>
         </c:choose>
 
-        <fieldset>
-            <legend>Datos del triangulo</legend>
-            <c:forEach var="item" items="${cookie}">
-                <c:if test="${item.key != 'JSESSIONID'}">
-                    <c:choose>
-                        <c:when test="${item.key == 'area'}">
-                            <c:out value="El area es: ${item.value.value}"/> <br> 
-                        </c:when>
-                        <c:when test="${item.key == 'perimetro'}">
-                            <c:out value="El perimetro es: ${item.value.value}"/> <br>
-                        </c:when>
-                        <c:when test="${item.key == 'base'}">
-                            <c:out value="La base es: ${item.value.value}"/> <br>
-                        </c:when>
-                        <c:when test="${item.key == 'altura'}">
-                            <c:out value="La altura es: ${item.value.value}"/> <br>
-                        </c:when>
-                    </c:choose>             
-                </c:if>
-            </c:forEach>
-        </fieldset>
     </body>
 </html>
