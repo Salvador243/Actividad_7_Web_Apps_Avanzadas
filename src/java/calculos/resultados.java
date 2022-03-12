@@ -32,16 +32,43 @@ public class resultados extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet resultados</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet resultados at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            if (request.getAttribute("flag") != null) {
+                request.setAttribute("flag", 1);
+                
+                Cookie area = new Cookie("area", null);
+                Cookie perimetro = new Cookie("perimetro", null);
+                Cookie base1 = new Cookie("base", null);
+                Cookie altura1 = new Cookie("altura", null);
+
+                response.addCookie(area);
+                response.addCookie(perimetro);
+                response.addCookie(base1);
+                response.addCookie(altura1);
+                
+                request.getRequestDispatcher("index.jsp").forward(request, response);
+            } else {
+                String n1 = request.getParameter("b");
+                String n2 = request.getParameter("h");
+
+                Datos d = new Datos(n1, n2);
+                d.darArea();
+                d.darPerimetro();
+
+                double area_ = d.getArea();
+                double perimetro_ = d.getPerimetro();
+
+                Cookie area = new Cookie("area", String.valueOf(area_));
+                Cookie perimetro = new Cookie("perimetro", String.valueOf(perimetro_));
+                Cookie base1 = new Cookie("base", n1);
+                Cookie altura1 = new Cookie("altura", n2);
+
+                response.addCookie(area);
+                response.addCookie(perimetro);
+                response.addCookie(base1);
+                response.addCookie(altura1);
+
+                response.sendRedirect(request.getContextPath() + "/index.jsp");
+            }
         }
     }
 
@@ -71,29 +98,7 @@ public class resultados extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String base = request.getParameter("b");
-        String altura = request.getParameter("h");
-
-        Datos d = new Datos(base, altura);
-        d.darArea();
-        d.darPerimetro();
-
-        double area_ = d.getArea();
-        double perimetro_ = d.getPerimetro();
-        
-        Cookie area = new Cookie("area", String.valueOf(area_));
-        Cookie perimetro = new Cookie("perimetro", String.valueOf(perimetro_));
-        Cookie base1 = new Cookie("base" , base);
-        Cookie altura1 = new Cookie("altura" , altura);
-        
-        response.addCookie(area);
-        response.addCookie(perimetro);
-        response.addCookie(base1);
-        response.addCookie(altura1);
-        
-        response.sendRedirect(request.getContextPath() + "/index.jsp");
-        
-
+        processRequest(request, response);
     }
 
     /**

@@ -14,6 +14,11 @@
     </head>
     <body>
 
+        <%
+            if (request.getAttribute("flag") != null) {
+                out.print("<h2><<< FLAG >>></h2>");
+            }
+        %>
         <c:choose>
             <c:when test="${sessionScope.username != null}">
                 <c:out value = "Bienvenido ${sessionScope.username} "/> 
@@ -29,6 +34,9 @@
                     <button type="submit">Hacer Calculos</button>
                 </form>
 
+                <%
+                    if (request.getAttribute("flag") == null) {
+                %>
                 <fieldset>
                     <legend>Datos del triangulo</legend>
                     <c:forEach var="item" items="${cookie}">
@@ -50,6 +58,9 @@
                         </c:if>
                     </c:forEach>
                 </fieldset>
+                <%
+                    }
+                %>
             </c:when>
             <c:when test="${sessionScope.username == null}">
                 <form action="usuario" method="post">
@@ -61,6 +72,5 @@
                 </form>
             </c:when>
         </c:choose>
-
     </body>
 </html>
